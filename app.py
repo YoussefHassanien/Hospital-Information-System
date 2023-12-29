@@ -1,11 +1,75 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, session, send_from_directory
+import psycopg2.extras
 
 app = Flask(__name__)
+app.secret_key = "queensqueries"
 
+database_session = psycopg2.connect(
+     database="Hospital",
+     port=5432,
+     host="localhost",
+     user="postgres",
+     password="1792003"
+)
+
+cursor = database_session.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def home():  # put application's code here
+    return render_template('Home.html')
+
+@app.route("/registerr", methods=["GET", "POST"])
+def registerr():
+    return render_template('Registeration.html')
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    message = ''
+    userssn = request.form.get("pssn")
+    userfname = request.form.get("pfname")
+    userlname = request.form.get("plname")
+    useremail = request.form.get("pEmail")
+    userpassword = request.form.get("ppassword")
+    useraddress = request.form.get("paddress")
+    userdate = request.form.get("pbirthdate")
+    usergender = request.form.get("pGender")
+    userphone = request.form.get("pphone")
+
+    if useremail:
+        cursor.execute('SELECT pemail FROM patient where pemail = %s', (useremail,))
+        if cursor.fetchone():
+            message = 'Account already exits!'
+        else:
+            cursor.execute('INSERT INTO patient(pssn, pfname, plname, pEmail, ppassword, paddress, pbirthdate, '
+                           'pGender, pphone) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                           (userssn, userfname, userlname, useremail, userpassword, useraddress, userdate,
+                            usergender, userphone))
+            database_session.commit()
+            message = 'You have successfully registered!'
+
+    return render_template("Registeration.html", msg=message)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    message = ''
+    useremail = request.form.get("pEmail")
+    userpassword = request.form.get("ppassword")
+    if useremail:
+        cursor.execute('SELECT * FROM patient where pEmail = %s and ppassword = %s', (useremail, userpassword))
+        result = cursor.fetchone()
+        if result:
+            session['user'] = dict(result)
+            message = 'Logged in successfully!'
+            return redirect('/login')
+
+        else:
+            message = 'Please enter correct email and password'
+    return render_template('index.html', msg=message)
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    session['user'] = None
+    return redirect('/login')
 
 
 if __name__ == '__main__':
