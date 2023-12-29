@@ -64,7 +64,7 @@ def login():
 
         else:
             message = 'Please enter correct email and password'
-    return render_template('index.html', msg=message)
+    return render_template('Home.html', msg=message)
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():

@@ -1,14 +1,16 @@
 create table General_Department(
-Dnumber serial,
+Dnumber serial UNIQUE,
 Dname varchar(20)
 
 );
 
 create table Doctor(
-DID serial,
+DID serial UNIQUE ,
 DSSN varchar(14) UNIQUE not NULL,
 DFname varchar(20) not NULL,
 DLname varchar(20) not NULL,
+DEmail varchar(100) UNIQUE not null,
+ppassword varchar(30) not null,
 Dbirthdate date not NULL,
 Daddress varchar(100) not NULL,
 Dphone varchar(20) not NULL,
@@ -28,10 +30,12 @@ Mgr_Id int references Doctor (DID)
 
 
 create table Patient (
-PID SERIAL,
+PID SERIAL UNIQUE,
 PSSN varchar(14) UNIQUE not null,
 PFname varchar(20) not null,
 PLname varchar(20) not null,
+pEmail varchar(100) UNIQUE not null,
+ppassword varchar(30) not null,
 Paddress varchar(100) not null,
 Pbirthdate date not null,
 Pgender varchar(1) CHECK ( Pgender='F' OR  Pgender='M' ),
@@ -41,7 +45,7 @@ medical_status varchar(300)
 );
 
 create table Nurse(
-NID SERIAL,
+NID SERIAL UNIQUE,
 NSSN varchar(14) UNIQUE not null,
 NFname varchar(20) not null,
 NLname varchar(20) not null,
@@ -68,7 +72,7 @@ type varchar(50) not null
 );
 
 create table Scan(
-SID serial,
+SID serial UNIQUE,
 CT bool,
 XRAY bool,
 MRI bool,
@@ -83,7 +87,7 @@ Equipment varchar(200) not null
 );
 
 create table Medication(
-M_id serial,
+M_id serial UNIQUE,
 dose varchar(30)  not null,
 Mname varchar(50),
 timing time  not null,
