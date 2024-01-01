@@ -9,7 +9,7 @@ database_session = psycopg2.connect(
      port=5432,
      host="localhost",
      user="postgres",
-     password="1792003"
+     password="8383"
 )
 
 cursor = database_session.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -61,7 +61,7 @@ def login():
         if result:
             session['user'] = dict(result)
             message = 'Logged in successfully!'
-            return redirect('/login')
+            return redirect('/patient')
 
         else:
             message = 'Please enter correct email and password'
@@ -88,6 +88,10 @@ def doctors_database():
     patient1 = "hamsa"
     return render_template('Admin_Doctors_Database.html', patient1=patient1)
 
+@app.route("/patient", methods=["GET", "POST"])
+def patient():
+
+    return render_template("Patient.html")
 
 if __name__ == '__main__':
     app.run()

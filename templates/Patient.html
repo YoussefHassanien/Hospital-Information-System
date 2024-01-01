@@ -2,9 +2,148 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>patient page</title>
+    <link href="../static/Css/Patient.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
 </head>
 <body>
+
+<section class="container ng-scope ng-fadeInLeftShort" style="">
+<!-- uiView:  --><div class="ng-fadeInLeftShort ng-scope" style="">
+<div class="container-overlap bg-blue-500 ng-scope">
+  <div class="media m0 pv">
+    <div class="media-left"><a href="#"><img src="../static/Images/patients.png" alt="User" class="media-object img-circle thumb64"></a></div>
+    <div class="media-body media-middle">
+      <h4 class="media-heading text-white">{{ session.user.pfname + "  " + session.user.plname }}</h4>
+      <span class="text-white">patient</span>
+    </div>
+  </div>
+</div>
+<div class="container-fluid ng-scope">
+  <div class="row">
+    <!-- Left column-->
+    <div class="col-md-7 col-lg-8">
+      <form class="card ng-pristine ng-valid">
+        <h5 class="card-heading pb0">
+            Medical status
+        </h5>
+        <div class="card-body">
+          <p class="ng-scope ng-binding editable">{{ session.user.medical_status }}</p>
+        </div>
+        <div class="card-divider"></div>
+
+        <h5 class="card-heading pb0">Contact Information</h5>
+        <div class="card-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td><em class="ion-document-text icon-fw mr"></em>Name</td>
+                <td class="ng-binding">{{ session.user.pfname + "  " + session.user.plname }}</td>
+              </tr>
+              <tr>
+                <td><em class="ion-egg icon-fw mr"></em>Social security number</td>
+                <td><span class="ng-scope ng-binding editable">{{ session.user.pssn }}</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-ios-body icon-fw mr"></em>Birthday</td>
+                <td><span class="ng-scope ng-binding editable">{{ session.user.pbirthdate }}</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-man icon-fw mr"></em>Gender</td>
+                <td><span class="ng-scope ng-binding editable">{{ session.user.pgender }}</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-android-home icon-fw mr"></em>Address</td>
+                <td><span class="ng-scope ng-binding editable">{{ session.user.paddress }}</span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-email icon-fw mr"></em>Email</td>
+                <td><span class="ng-scope editable"><a href="" class="ng-binding">{{ session.user.pemail }}</a></span></td>
+              </tr>
+              <tr>
+                <td><em class="ion-ios-telephone icon-fw mr"></em>Contact phone</td>
+                <td><span class="ng-scope ng-binding editable">{{ session.user.pphone }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-divider"></div>
+      </form>
+    </div>
+    <!-- Right column-->
+    <div class="col-md-5 col-lg-4">
+      <div class="card">
+        <h5 class="card-heading">
+            Your Doctor
+        </h5>
+        <div class="mda-list">
+          <div class="mda-list-item"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="List user" class="mda-list-item-img">
+            <div class="mda-list-item-text mda-2-line">
+              <h3><a href="#">Dr. Eric Graves</a></h3>
+              <div class="text-muted text-ellipsis">surgeon</div>
+            </div>
+          </div>
+{#          <div class="mda-list-item"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="List user" class="mda-list-item-img">#}
+{#            <div class="mda-list-item-text mda-2-line">#}
+{#              <h3><a href="#">Jessie Cox</a></h3>#}
+{#              <div class="text-muted text-ellipsis">Sed lacus nisl luctus</div>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="mda-list-item"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="List user" class="mda-list-item-img">#}
+{#            <div class="mda-list-item-text mda-2-line">#}
+{#              <h3><a href="#">Marie Hall</a></h3>#}
+{#              <div class="text-muted text-ellipsis">Donec congue sagittis mi</div>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="mda-list-item"><img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="List user" class="mda-list-item-img">#}
+{#            <div class="mda-list-item-text mda-2-line">#}
+{#              <h3><a href="#">Guy Carpenter</a></h3>#}
+{#              <div class="text-muted text-ellipsis">Donec convallis arcu sit</div>#}
+{#            </div>#}
+{#          </div>#}
+        </div>
+        <div class="card-divider"></div>
+        <h5 class="card-heading">Medical History</h5>
+        <div class="card-body pb0">
+          <p class="pull-left mr"><em class="ion-record text-info"></em></p>
+          <div class="oh">
+            <p><strong class="mr-sm">{{ session.user.medical_history }}</strong></p>
+          </div>
+        </div>
+
+
+        <div class="card-body pb0">
+          <p class="pull-left mr"><em class="ion-record text-info"></em></p>
+          <div class="oh">
+            <p><strong class="mr-sm">Scans</strong></p>
+            <p><a href=""><img src="https://www.bootdey.com/image/200x200" alt="Pic" class="mr-sm thumb48"></a>
+            <a href=""><img src="https://www.bootdey.com/image/200x200" alt="Pic" class="mr-sm thumb48"></a>
+            <a href=""><img src="https://www.bootdey.com/image/200x200" alt="Pic" class="mr-sm thumb48"></a></p>
+
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="clearfix">
+            <p class="pull-left mr"><em class="ion-record text-primary"></em></p>
+            <div class="oh">
+              <p><strong class="mr-sm">Medicine</strong></p>
+              <p><span class="image-list"><a href=""><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="User" class="img-circle thumb32"></a>
+              <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="User" class="img-circle thumb32"></a><strong><a href="" class="ml-sm link-unstyled">+200</a></strong></span></p>
+              <div class="clearfix">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div></section>
 
 </body>
 </html>
