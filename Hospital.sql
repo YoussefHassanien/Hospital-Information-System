@@ -126,3 +126,15 @@ create table Prescribes(
 Mid int references Medication (M_id),
 Did int references Doctor (DID)
 );
+
+create table Contact(
+Cname varchar(20) not NULL,
+CEmail varchar(100) UNIQUE not null,
+Cphone varchar(20) not NULL,
+CMessage varchar(700) not null
+);
+
+create table Admin(
+Aemail varchar(100) UNIQUE not null,
+Apassword varchar(30) not null
+);
