@@ -5,11 +5,11 @@ app = Flask(__name__)
 app.secret_key = "queensqueries"
 
 database_session = psycopg2.connect(
-     database="Hospital",
+     database="hospital_youssef",
      port=5432,
      host="localhost",
      user="postgres",
-     password="1792003"
+     password="Youssef.8.3"
 )
 
 cursor = database_session.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -104,7 +104,8 @@ def admin_charts():
 
 @app.route('/Admin_Patients_Database', methods=['GET', 'POST'])
 def patients_database():
-    return render_template('Admin_Patients_Database.html')
+    patient1 = "hamsa"
+    return render_template('Admin_Patients_Database.html', patient1=patient1)
 
 
 @app.route('/Admin_Doctors_Database', methods=['GET', 'POST'])
@@ -116,7 +117,6 @@ def doctors_database():
 def patient():
 
     return render_template("Patient.html")
-
 
 if __name__ == '__main__':
     app.run()

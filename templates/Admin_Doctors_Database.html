@@ -9,6 +9,8 @@
         <title>Doctors Database</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="../static/Css/Admin.css" rel="stylesheet" />
+        <link href="https://unpkg.com/tabulator-tables@5.3.0/dist/css/tabulator.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.3.0/dist/js/tabulator.min.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -17,22 +19,12 @@
             <a class="navbar-brand ps-3" href="/Home">SMARTCARE HOSPITAL</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -41,6 +33,10 @@
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
+                        <div class="admin-photo-and-title">
+                            <img src="../static/Images/Blank_Profile.jpg" alt="Admin Photo">
+                            <h5>Administrator</h5>
+                        </div>
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Data Analysis</div>
                             <a class="nav-link" href="/Admin_Charts">
@@ -58,6 +54,15 @@
                                     <a class="nav-link" href="">
                                       <div><i class="fas fa-table"></i>-Database</div>
                                     </a>
+                                    <a class="nav-link" href="">
+                                      <div><i class="fas fa-user-plus"></i>-Add</div>
+                                    </a>
+                                    <a class="nav-link" href="">
+                                      <div><i class="fas fa-user-minus"></i>-Remove</div>
+                                    </a>
+                                    <a class="nav-link" href="">
+                                      <div><i class="fas fa-pen-to-square"></i>-Edit</div>
+                                    </a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -70,13 +75,18 @@
                                     <a class="nav-link" href="/Admin_Patients_Database">
                                       <div><i class="fas fa-table"></i>-Database</div>
                                     </a>
+                                    <a class="nav-link" href="/Admin_Patients_Database">
+                                      <div><i class="fas fa-user-plus"></i>-Add</div>
+                                    </a>
+                                    <a class="nav-link" href="/Admin_Patients_Database">
+                                      <div><i class="fas fa-user-minus"></i>-Remove</div>
+                                    </a>
+                                    <a class="nav-link" href="/Admin_Patients_Database">
+                                      <div><i class="fas fa-pen-to-square"></i>-Edit</div>
+                                    </a>
                                 </nav>
                             </div>
                         </div>
-                    </div>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
                     </div>
                 </nav>
             </div>
@@ -93,27 +103,17 @@
                                 Doctors Database
                             </div>
                             <div class="card-body">
-                                <table id="datatablesSimple">
+                                <table id="example-table">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
                                             <th>Position</th>
                                             <th>Office</th>
                                             <th>Age</th>
-                                            <th>Start date</th>
+                                            <th>Start Date</th>
                                             <th>Salary</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
                                         <tr>
                                             <td>{{ patient1 }}</td>
@@ -187,127 +187,7 @@
                                             <td>2009/09/15</td>
                                             <td>$205,500</td>
                                         </tr>
-                                        <tr>
-                                            <td>Sonya Frost</td>
-                                            <td>Software Engineer</td>
-                                            <td>Edinburgh</td>
-                                            <td>23</td>
-                                            <td>2008/12/13</td>
-                                            <td>$103,600</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jena Gaines</td>
-                                            <td>Office Manager</td>
-                                            <td>London</td>
-                                            <td>30</td>
-                                            <td>2008/12/19</td>
-                                            <td>$90,560</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Quinn Flynn</td>
-                                            <td>Support Lead</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2013/03/03</td>
-                                            <td>$342,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Charde Marshall</td>
-                                            <td>Regional Director</td>
-                                            <td>San Francisco</td>
-                                            <td>36</td>
-                                            <td>2008/10/16</td>
-                                            <td>$470,600</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Haley Kennedy</td>
-                                            <td>Senior Marketing Designer</td>
-                                            <td>London</td>
-                                            <td>43</td>
-                                            <td>2012/12/18</td>
-                                            <td>$313,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tatyana Fitzpatrick</td>
-                                            <td>Regional Director</td>
-                                            <td>London</td>
-                                            <td>19</td>
-                                            <td>2010/03/17</td>
-                                            <td>$385,750</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Michael Silva</td>
-                                            <td>Marketing Designer</td>
-                                            <td>London</td>
-                                            <td>66</td>
-                                            <td>2012/11/27</td>
-                                            <td>$198,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Paul Byrd</td>
-                                            <td>Chief Financial Officer (CFO)</td>
-                                            <td>New York</td>
-                                            <td>64</td>
-                                            <td>2010/06/09</td>
-                                            <td>$725,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Gloria Little</td>
-                                            <td>Systems Administrator</td>
-                                            <td>New York</td>
-                                            <td>59</td>
-                                            <td>2009/04/10</td>
-                                            <td>$237,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bradley Greer</td>
-                                            <td>Software Engineer</td>
-                                            <td>London</td>
-                                            <td>41</td>
-                                            <td>2012/10/13</td>
-                                            <td>$132,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Dai Rios</td>
-                                            <td>Personnel Lead</td>
-                                            <td>Edinburgh</td>
-                                            <td>35</td>
-                                            <td>2012/09/26</td>
-                                            <td>$217,500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Jenette Caldwell</td>
-                                            <td>Development Lead</td>
-                                            <td>New York</td>
-                                            <td>30</td>
-                                            <td>2011/09/03</td>
-                                            <td>$345,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Yuri Berry</td>
-                                            <td>Chief Marketing Officer (CMO)</td>
-                                            <td>New York</td>
-                                            <td>40</td>
-                                            <td>2009/06/25</td>
-                                            <td>$675,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Caesar Vance</td>
-                                            <td>Pre-Sales Support</td>
-                                            <td>New York</td>
-                                            <td>21</td>
-                                            <td>2011/12/12</td>
-                                            <td>$106,450</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Doris Wilder</td>
-                                            <td>Sales Assistant</td>
-                                            <td>Sidney</td>
-                                            <td>23</td>
-                                            <td>2010/09/20</td>
-                                            <td>$85,600</td>
-                                        </tr>
-                                        <tr>
+                                                                            <tr>
                                             <td>Angelica Ramos</td>
                                             <td>Chief Executive Officer (CEO)</td>
                                             <td>London</td>
@@ -575,16 +455,205 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-user-plus me-1"></i>
+                                Add-Doctor
+                            </div>
+                            <div class="card-body">
+                              <form action="/Add_Doctor" method="post">
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-SSN"><b>SSN</b></label>
+                                    <input type="number" name="Doctor-SSN" class="form-control2" id="Doctor-SSN" placeholder="SSN" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-FName"><b>First Name</b></label>
+                                    <input type="text" name="Doctor-FName" class="form-control2" id="Doctor-FName" placeholder="First Name" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-LName"><b>Last Name</b></label>
+                                    <input type="text" name="Doctor-LName" class="form-control2" id="Doctor-LName" placeholder="Last Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Email"><b>Email</b> </label>
+                                    <input type="email" name="Doctor-Email" class="form-control2" id="Doctor-Email" placeholder="Email">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Password"><b>Password</b></label>
+                                    <input type="text" name="Doctor-Password" class="form-control2" id="Doctor-Password" placeholder="Password">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Address"><b>Address</b></label>
+                                    <input type="text" name="Doctor-Address" class="form-control2" id="Doctor-Address" placeholder="Address" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Birthdate"><b>Birthdate</b></label>
+                                    <input type="date" name="Doctor-Birthdate" class="form-control2" id="Doctor-Birthdate" placeholder="Birthdate" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Gender"><b>Gender</b></label>
+                                        <select name="Doctor-Gender" id="Doctor-Gender" class="form-control2">
+                                          <option value="M">M</option>
+                                          <option value="F">F</option>
+                                        </select>
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Phone"><b>Phone Number</b></label>
+                                    <input type="tel" name="Doctor-Phone" class="form-control2" id="Doctor-Phone" placeholder="Phone Number" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Education"><b>Education</b></label>
+                                    <input type="text" name=Doctor-Education class="form-control2" id="Doctor-Education" placeholder="Education" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Salary"><b>Salary</b></label>
+                                    <input type="number" name=Doctor-Salary class="form-control2" id="Doctor-Salary" placeholder="Salary" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="btn-box">
+                                  <button type="submit" class="btn ">Add</button>
+                                </div>
+                              </form>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-pen-to-square me-1"></i>
+                                Edit-Doctor
+                            </div>
+                            <div class="card-body">
+                              <form action="/Edit_Doctor" method="post">
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="To-Be-Edited-Doctor-Email"><b>Email of the doctor to be edited</b> </label>
+                                    <input type="email" name="To-Be-Edited-Doctor-Email" required class="form-control2" id="To-Be-Edited-Doctor-Email" placeholder="Email">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-SSN"><b>SSN</b></label>
+                                    <input type="number" name="Edited-Doctor-SSN" class="form-control2" id="Edited-Doctor-SSN" placeholder="SSN" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-FName"><b>First Name</b></label>
+                                    <input type="text" name="Edited-Doctor-FName" class="form-control2" id="Edited-Doctor-FName" placeholder="First Name" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-LName"><b>Last Name</b></label>
+                                    <input type="text" name="Edited-Doctor-LName" class="form-control2" id="Edited-Doctor-LName" placeholder="Last Name" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Password"><b>Password</b></label>
+                                    <input type="text" name="Edited-Doctor-Password" class="form-control2" id="Edited-Doctor-Password" placeholder="Password">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Address"><b>Address</b></label>
+                                    <input type="text" name="Edited-Doctor-Address" class="form-control2" id="Edited-Doctor-Address" placeholder="Address" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Birthdate"><b>Birthdate</b></label>
+                                    <input type="date" name="Edited-Doctor-Birthdate" class="form-control2" id="Edited-Doctor-Birthdate" placeholder="Birthdate" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Gender"><b>Gender</b></label>
+                                        <select name="Edited-Doctor-Gender" id="Edited-Doctor-Gender" class="form-control2">
+                                          <option value="M">M</option>
+                                          <option value="F">F</option>
+                                        </select>
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Phone"><b>Phone Number</b></label>
+                                    <input type="tel" name="Edited-Doctor-Phone" class="form-control2" id="Edited-Doctor-Phone" placeholder="Phone Number" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Education"><b>Education</b></label>
+                                    <input type="text" name=Edited-Doctor-Education class="form-control2" id="Edited-Doctor-Education" placeholder="Education" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Salary"><b>Salary</b></label>
+                                    <input type="number" name=Edited-Doctor-Salary class="form-control2" id="Edited-Doctor-Salary" placeholder="Salary" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Email"><b>Email</b> </label>
+                                    <input type="email" name="Edited-Doctor-Email" class="form-control2" id="Edited-Doctor-Email" placeholder="Email">
+                                  </div>
+                                </div>
+                                <div class="btn-box">
+                                  <button type="submit" class="btn ">Edit</button>
+                                </div>
+                              </form>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-user-minus me-1"></i>
+                                Remove-Doctor
+                            </div>
+                            <div class="card-body">
+                              <form action="/Remove_Doctor" method="post">
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Removed-Doctor-Email"><b>Email of the doctor to be removed</b> </label>
+                                    <input type="email" name="Removed-Doctor-Email" required class="form-control2" id="Removed-Doctor-Email" placeholder="Email">
+                                  </div>
+                                </div>
+                                <div class="btn-box">
+                                  <button type="submit" class="btn ">Remove</button>
+                                </div>
+                              </form>
+                            </div>
+                        </div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">Copyright &copy;Cairo University Faculty of Engineering Credit Hours System, Database Course Fall 2023, Team Number 4</div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <span>Privacy Policy</span>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <span>Terms &amp; Conditions</span>
                             </div>
                         </div>
                     </div>
