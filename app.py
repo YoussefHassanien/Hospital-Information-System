@@ -9,7 +9,7 @@ database_session = psycopg2.connect(
      port=5432,
      host="localhost",
      user="postgres",
-     password="8383"
+     password="1792003"
 )
 
 cursor = database_session.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -17,6 +17,16 @@ cursor = database_session.cursor(cursor_factory=psycopg2.extras.DictCursor)
 @app.route('/', methods=['GET', 'POST'])
 def home():  # put application's code here
     return render_template('Home.html')
+
+@app.route('/Surgery', methods=['GET', 'POST'])
+def surgery():  # put application's code here
+    return render_template('Surgery.html')
+@app.route('/doctor', methods=['GET', 'POST'])
+def doctor():  # put application's code here
+    return render_template('Doctor.html')
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():  # put application's code here
+    return render_template('Admin_Profile.html')
 
 
 @app.route("/Home", methods=['GET', 'POST'])
@@ -55,16 +65,30 @@ def login():
     message = ''
     useremail = request.form.get("pEmail")
     userpassword = request.form.get("ppassword")
-    if useremail:
-        cursor.execute('SELECT * FROM patient where pEmail = %s and ppassword = %s', (useremail, userpassword))
-        result = cursor.fetchone()
-        if result:
-            session['user'] = dict(result)
-            message = 'Logged in successfully!'
-            return redirect('/patient')
+    cursor.execute('SELECT * FROM patient WHERE pEmail = %s AND ppassword = %s', (useremail, userpassword))
+    patient_result = cursor.fetchone()
 
-        else:
-            message = 'Please enter correct email and password'
+    # Check in the doctor table
+    cursor.execute('SELECT * FROM doctor WHERE dEmail = %s AND dpassword = %s', (useremail, userpassword))
+    doctor_result = cursor.fetchone()
+
+    cursor.execute('SELECT * FROM admin WHERE aemail = %s AND apassword = %s', (useremail, userpassword))
+    admin_result = cursor.fetchone()
+
+    if patient_result:
+        session['user'] = dict(patient_result)
+        message = 'Logged in as a patient!'
+        return redirect('/patient')
+    elif doctor_result:
+        session['user'] = dict(doctor_result)
+        message = 'Logged in as a doctor!'
+        return redirect('/doctor')
+    elif admin_result:
+        session['user'] = dict(doctor_result)
+        message = 'Logged in as an admin!'
+        return redirect('/admin')
+    else:
+        message = 'Please enter correct email and password'
     return render_template('Home.html', msg=message)
 
 @app.route("/logout", methods=["GET", "POST"])
@@ -92,6 +116,7 @@ def doctors_database():
 def patient():
 
     return render_template("Patient.html")
+
 
 if __name__ == '__main__':
     app.run()

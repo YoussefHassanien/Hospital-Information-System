@@ -762,6 +762,106 @@ a:focus {
   color: #252525;
 }
 
+/*h1{*/
+/*   position: absolute;*/
+/*    top:80px;*/
+/*    left:30%;*/
+/*    font-size: 5em;*/
+/*   color:seashell;*/
+/*   text-shadow: 2px 4px 4px rgb(10, 10, 10);*/
+/*}*/
+/*This positions the title and adds a blur effect to the text, it also sets the color and size of the text*/
+.notcontainer{
+    width:1600px;
+    display:flex ;
+    justify-content:space-evenly;
+    align-items: center;
+    align-content: center;
+    flex-wrap:wrap;
+    padding-left: 110px;
+  padding-right: 178px;
+  padding-bottom: 130px;
+}
+/*This class encompases all the cards, it sets how they're to be displayed, where the space should be evenly distributed between them, it also sets the width of the webpage they'll take up*/
+.card{
+    position:relative;
+    width:300px;
+    height:370px;
+    transition:0.3s ease-out;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.7);
+    top:80px;
+}
+/*This positions the cards in the container and sets the width and height of each one, it also adds a shadow to the card itself*/
+.card .imgbox{
+    position: relative;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+.card .imgbox img{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:80%;
+    display:block;
+    transition: 0.5s;
+}
+/*The card class contains both the image and the text, imgbox class contains the image and it defines it's width and height in the card, the position is also absolute so that it moves acccording to it's ancestor (the card)*/
+.card .content{
+    position: absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+    height:100px;
+    padding :12px;
+    background: #038673;
+    transition :all 0.5s cubic-bezier(.48,-0.28,0.41,1.4);
+    box-sizing:border-box;
+    overflow:hidden;
+}
+.card .content h2{
+  color:seashell;
+  text-shadow: 2px 4px 4px rgb(10, 10, 10);
+}
+/*Class content defines the properties of the text displayed under the image, where it takes up the width of it's ancestor(the card) and only 100px in height as to not cover the image, it also makes the content starts from the bottom of the card and sets it's background color, transition for all properties is also set and given custom values*/
+/*box sizing is set to border-box to make the padding and the border included in the width and height of the content, so that it's true to size and fits properly in the card, overflow is hidden to clip the content that doesn't fit into the card, where a transition will be applied to show it*/
+.card:hover .content{
+    width:100%;
+    height:75%;
+    left:0;
+    bottom:0;
+}
+/*sets the transition so that when you hover over the card, the content's height increases showing the rest of the text*/
+.content p{
+    margin:10px 0 0;
+    padding:1em 1em;
+    transform: translateY(2em);
+    line-height: 1.3em;
+    transition:0.3s;
+    opacity:0;
+}
+/*This defines how the hidden content will be displayed, it shifts it down so that only the title in initially visible, it also makes the paragraph transparent*/
+.card:hover .content p{
+    transform:translateY(0);
+    opacity:1;
+  color:seashell;
+}
+/*This makes it so that when you hover over the card, the paragrapgh is shifted up again and the text becomes visible*/
+h2{
+    text-align: center;
+}
+/*Center aligns the title of the content in each card*/
+.card:hover
+{
+    box-shadow: 0 0 5em rgba(253, 250, 250, 0.4);
+}
+/*Creates a shadow around the frame of the card when you hover over it*/
+
+
+
+
 .team_section {
   background-color: #00c6a9;
 }
