@@ -108,13 +108,14 @@ def admin_charts():
 
 @app.route('/Admin_Patients_Database', methods=['GET', 'POST'])
 def patients_database():
-    cursor.execute('SELECT DID FROM Doctor')
-    doctors_ids = cursor.fetchall()
     cursor.execute('SELECT pEmail FROM Patient')
     patients_emails = cursor.fetchall()
-    patient1 = "hamsa"
-    return render_template('Admin_Patients_Database.html', patient1=patient1,
-                           doctors_ids=doctors_ids, patients_emails=patients_emails)
+    cursor.execute('SELECT DID FROM Doctor')
+    doctors_ids = cursor.fetchall()
+    cursor.execute('SELECT * FROM Patient')
+    patients_table = cursor.fetchall()
+    return render_template("Admin_Patients_Database.html", doctors_ids=doctors_ids,
+                           patients_emails=patients_emails, patients_table=patients_table)
 @app.route('/Admin_Add_Doctor', methods=['GET', 'POST'])
 def admin_add_doctor():
     doctor_ssn = request.form.get("Doctor-SSN")
@@ -144,10 +145,13 @@ def admin_add_doctor():
     else:
         message = 'Please enter a valid doctor SSN!'
 
+
     cursor.execute('SELECT DEmail FROM Doctor')
     doctors_emails = cursor.fetchall()
-    return render_template("Admin_Doctors_Database.html", admin_adding_warning=message,
-                           doctors_emails=doctors_emails)
+    cursor.execute('SELECT * FROM Doctor')
+    doctors_table = cursor.fetchall()
+    return render_template('Admin_Doctors_Database.html', doctors_emails=doctors_emails,
+                           admin_adding_warning=message, doctors_table=doctors_table)
 
 @app.route('/Edit_Doctor', methods=['GET', 'POST'])
 def edit_doctor():
@@ -206,10 +210,13 @@ def edit_doctor():
     else:
         message = 'Please enter a valid doctor email!'
 
+
     cursor.execute('SELECT DEmail FROM Doctor')
     doctors_emails = cursor.fetchall()
-    return render_template("Admin_Doctors_Database.html", admin_adding_warning=message,
-                           doctors_emails=doctors_emails)
+    cursor.execute('SELECT * FROM Doctor')
+    doctors_table = cursor.fetchall()
+    return render_template('Admin_Doctors_Database.html', doctors_emails=doctors_emails,
+                           admin_adding_warning=message, doctors_table=doctors_table)
 @app.route('/Admin_Edit_Patient', methods=['GET', 'POST'])
 def admin_edit_patient():
     patient_to_be_edited = request.form['To-Be-Edited-Patient-Email']
@@ -267,8 +274,10 @@ def admin_edit_patient():
     patients_emails = cursor.fetchall()
     cursor.execute('SELECT DID FROM Doctor')
     doctors_ids = cursor.fetchall()
+    cursor.execute('SELECT * FROM Patient')
+    patients_table = cursor.fetchall()
     return render_template("Admin_Patients_Database.html", admin_adding_warning=message,
-                           doctors_ids=doctors_ids, patients_emails=patients_emails)
+                           doctors_ids=doctors_ids, patients_emails=patients_emails, patients_table=patients_table)
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     message = ''
@@ -354,15 +363,19 @@ def add_patient():
     patients_emails = cursor.fetchall()
     cursor.execute('SELECT DID FROM Doctor')
     doctors_ids = cursor.fetchall()
+    cursor.execute('SELECT * FROM Patient')
+    patients_table = cursor.fetchall()
     return render_template("Admin_Patients_Database.html", admin_adding_warning=message,
-                           doctors_ids=doctors_ids, patients_emails=patients_emails)
+                           doctors_ids=doctors_ids, patients_emails=patients_emails, patients_table=patients_table)
 
 @app.route('/Admin_Doctors_Database', methods=['GET', 'POST'])
 def doctors_database():
     cursor.execute('SELECT DEmail FROM Doctor')
     doctors_emails = cursor.fetchall()
-    patient1 = "hamsa"
-    return render_template('Admin_Doctors_Database.html', patient1=patient1, doctors_emails=doctors_emails, admin_adding_warning="")
+    cursor.execute('SELECT * FROM Doctor')
+    doctors_table = cursor.fetchall()
+    return render_template('Admin_Doctors_Database.html', doctors_emails=doctors_emails,
+                           doctors_table=doctors_table)
 
 @app.route('/Remove_Doctor', methods=['GET', 'POST'])
 def remove_doctor():
@@ -382,7 +395,10 @@ def remove_doctor():
 
     cursor.execute('SELECT DEmail FROM Doctor')
     doctors_emails = cursor.fetchall()
-    return render_template('Admin_Doctors_Database.html', doctors_emails=doctors_emails, admin_adding_warning=message)
+    cursor.execute('SELECT * FROM Doctor')
+    doctors_table = cursor.fetchall()
+    return render_template('Admin_Doctors_Database.html', doctors_emails=doctors_emails,
+                           admin_adding_warning=message, doctors_table=doctors_table)
 
 @app.route('/Remove_Patient', methods=['GET', 'POST'])
 def remove_patient():
@@ -400,13 +416,16 @@ def remove_patient():
     patients_emails = cursor.fetchall()
     cursor.execute('SELECT DID FROM Doctor')
     doctors_ids = cursor.fetchall()
+    cursor.execute('SELECT * FROM Patient')
+    patients_table = cursor.fetchall()
     return render_template("Admin_Patients_Database.html", admin_adding_warning=message,
-                           doctors_ids=doctors_ids, patients_emails=patients_emails)
+                           doctors_ids=doctors_ids, patients_emails=patients_emails, patients_table=patients_table)
+
 
 @app.route("/patient", methods=["GET", "POST"])
 def patient():
-
     return render_template("Patient.html")
+
 
 if __name__ == '__main__':
     app.run()
