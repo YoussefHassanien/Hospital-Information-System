@@ -139,6 +139,120 @@ def add_doctor():
 
     return render_template("Admin_Doctors_Database.html", admin_adding_warning=message)
 
+@app.route('/Edit_Doctor', methods=['GET', 'POST'])
+def edit_doctor():
+    doctor_to_be_edited = request.form['To-Be-Edited-Doctor-Email']
+    cursor.execute('SELECT DEmail FROM Doctor where DEmail = %s', (doctor_to_be_edited,))
+    if cursor.fetchone():
+        message = 'You have successfully edited doctor data in the database!'
+        doctor_fname = request.form.get("Edited-Doctor-FName")
+        doctor_lname = request.form.get("Edited-Doctor-LName")
+        doctor_email = request.form.get("Edited-Doctor-Email")
+        doctor_password = request.form.get("Edited-Doctor-Password")
+        doctor_address = request.form.get("Edited-Doctor-Address")
+        doctor_birthdate = request.form.get("Edited-Doctor-Birthdate")
+        doctor_gender = request.form.get("Edited-Doctor-Gender")
+        doctor_phone = request.form.get("Edited-Doctor-Phone")
+        doctor_salary = request.form.get("Edited-Doctor-Salary")
+        doctor_education = request.form.get("Edited-Doctor-Education")
+        doctor_specialization = request.form.get("Edited-Doctor-Specialisation")
+        doctor_department_number = request.form.get("Edited-Doctor-Department-Number")
+        if doctor_fname:
+            cursor.execute('UPDATE Doctor SET DFname= %s WHERE DEmail= %s', (doctor_fname, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_lname:
+            cursor.execute('UPDATE Doctor SET DLname= %s WHERE DEmail= %s', (doctor_lname, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_email:
+            cursor.execute('UPDATE Doctor SET DEmail= %s WHERE DEmail= %s', (doctor_email, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_password:
+            cursor.execute('UPDATE Doctor SET DPassword= %s WHERE DEmail= %s', (doctor_password, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_address:
+            cursor.execute('UPDATE Doctor SET DAddress= %s WHERE DEmail= %s', (doctor_address, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_phone:
+            cursor.execute('UPDATE Doctor SET DPhone= %s WHERE DEmail= %s', (doctor_phone, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_birthdate:
+            cursor.execute('UPDATE Doctor SET DBirthdate= %s WHERE DEmail= %s', (doctor_birthdate, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_gender:
+            cursor.execute('UPDATE Doctor SET DGender= %s WHERE DEmail= %s', (doctor_gender, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_salary:
+            cursor.execute('UPDATE Doctor SET DSalary= %s WHERE DEmail= %s', (doctor_salary, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_education:
+            cursor.execute('UPDATE Doctor SET DEducation= %s WHERE DEmail= %s', (doctor_education, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_specialization:
+            cursor.execute('UPDATE Doctor SET Specialization= %s WHERE DEmail= %s', (doctor_specialization, doctor_to_be_edited))
+            database_session.commit()
+        if doctor_department_number:
+            cursor.execute('UPDATE Doctor SET DNo= %s WHERE DEmail= %s', (doctor_department_number, doctor_to_be_edited))
+            database_session.commit()
+        return render_template("Admin_Doctors_Database.html", admin_adding_warning=message)
+    else:
+        message = 'Please enter a valid doctor email!'
+        return render_template("Admin_Doctors_Database.html", admin_adding_warning=message)
+
+@app.route('/Admin_Edit_Patient', methods=['GET', 'POST'])
+def admin_edit_patient():
+    patient_to_be_edited = request.form['To-Be-Edited-Patient-Email']
+    cursor.execute('SELECT pEmail FROM Patient where pEmail = %s', (patient_to_be_edited,))
+    if cursor.fetchone():
+        message = 'You have successfully edited patient data in the database!'
+        patient_fname = request.form.get("Edited-Patient-FName")
+        patient_lname = request.form.get("Edited-Patient-LName")
+        patient_email = request.form.get("Edited-Patient-Email")
+        patient_password = request.form.get("Edited-Patient-Password")
+        patient_address = request.form.get("Edited-Patient-Address")
+        patient_birthdate = request.form.get("Edited-Patient-Birthdate")
+        patient_gender = request.form.get("Edited-Patient-Gender")
+        patient_phone = request.form.get("Edited-Patient-Phone")
+        patient_medical_status = request.form.get("Edited-Patient-Medical-Status")
+        patient_medical_history = request.form.get("Edited-Patient-Medical-History")
+        patient_doctor_id = request.form.get("Edited-Patient-Doctor-ID")
+        if patient_fname:
+            cursor.execute('UPDATE Patient SET PFname= %s WHERE pEmail= %s', (patient_fname, patient_to_be_edited))
+            database_session.commit()
+        if patient_lname:
+            cursor.execute('UPDATE Patient SET PLname= %s WHERE pEmail= %s', (patient_lname, patient_to_be_edited))
+            database_session.commit()
+        if patient_email:
+            cursor.execute('UPDATE Patient SET pEmail= %s WHERE pEmail= %s', (patient_email, patient_to_be_edited))
+            database_session.commit()
+        if patient_password:
+            cursor.execute('UPDATE Patient SET ppassword= %s WHERE pEmail= %s', (patient_password, patient_to_be_edited))
+            database_session.commit()
+        if patient_address:
+            cursor.execute('UPDATE Patient SET Paddress= %s WHERE pEmail= %s', (patient_address, patient_to_be_edited))
+            database_session.commit()
+        if patient_phone:
+            cursor.execute('UPDATE Patient SET Pphone= %s WHERE pEmail= %s', (patient_phone, patient_to_be_edited))
+            database_session.commit()
+        if patient_birthdate:
+            cursor.execute('UPDATE Patient SET Pbirthdate= %s WHERE pEmail= %s', (patient_birthdate, patient_to_be_edited))
+            database_session.commit()
+        if patient_gender:
+            cursor.execute('UPDATE Patient SET Pgender= %s WHERE pEmail= %s', (patient_gender, patient_to_be_edited))
+            database_session.commit()
+        if patient_medical_status:
+            cursor.execute('UPDATE Patient SET medical_status= %s WHERE pEmail= %s', (patient_medical_status, patient_to_be_edited))
+            database_session.commit()
+        if patient_medical_history:
+            cursor.execute('UPDATE Patient SET medical_history= %s WHERE pEmail= %s', (patient_medical_history, patient_to_be_edited))
+            database_session.commit()
+        if patient_doctor_id:
+            cursor.execute('UPDATE Patient SET DID= %s WHERE pEmail= %s', (patient_doctor_id, patient_to_be_edited))
+            database_session.commit()
+        return render_template("Admin_Patients_Database.html", admin_adding_warning=message)
+    else:
+        message = 'Please enter a valid patient email!'
+        return render_template("Admin_Patients_Database.html", admin_adding_warning=message)
+
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     message = ''
