@@ -460,7 +460,7 @@
                                 <i class="fas fa-user-plus me-1"></i>
                                 Add-Patient
                             </div>
-                            {% if admin_adding_warning=="Patient already exits in the database!"%}
+                            {% if admin_adding_warning=="Patient already exits in the database!" or admin_adding_warning=="Please enter a valid patient SSN!"%}
                               <div class="card-body">
                                 <div class="alert alert-warning">{{ admin_adding_warning }}</div>
                               </div>
@@ -543,7 +543,11 @@
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Doctor-ID"><b>Doctor ID</b></label>
-                                    <input type="number" name="Patient-Doctor-ID" required class="form-control2" id="Patient-Doctor-ID" placeholder="Doctor ID of the patient" autocomplete="off">
+                                        <select name="Patient-Doctor-ID" id="Patient-Doctor-ID" class="form-control2">
+                                         {% for id in doctors_ids %}
+                                          <option value="{{ id[0] }}">{{ id[0] }}</option>
+                                          {% endfor %}
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="btn-box">
@@ -570,8 +574,12 @@
                               <form action="/Admin_Edit_Patient" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="To-Be-Edited-Patient-Email"><b>Patient Email</b> </label>
-                                    <input type="email" name="To-Be-Edited-Patient-Email" required class="form-control2" id="To-Be-Edited-Patient-Email" placeholder="Email of the Patient to be edited">
+                                    <label for="To-Be-Edited-Patient-Email"><b>Patient Email</b></label>
+                                        <select name="To-Be-Edited-Patient-Email" id="To-Be-Edited-Patient-Email" class="form-control2">
+                                         {% for email in patients_emails %}
+                                          <option value="{{ email[0] }}">{{ email[0] }}</option>
+                                          {% endfor %}
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -634,7 +642,11 @@
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Edited-Patient-Doctor-ID"><b>Doctor ID</b></label>
-                                    <input type="number" name="Edited-Patient-Doctor-ID" class="form-control2" id="Edited-Patient-Doctor-ID" placeholder="Doctor ID of the patient" autocomplete="off">
+                                        <select name="Edited-Patient-Doctor-ID" id="Edited-Patient-Doctor-ID" class="form-control2">
+                                         {% for id in doctors_ids %}
+                                          <option value="{{ id[0] }}">{{ id[0] }}</option>
+                                          {% endfor %}
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -654,12 +666,25 @@
                                 <i class="fas fa-user-minus me-1"></i>
                                 Remove-Patient
                             </div>
+                            {% if admin_adding_warning=="Please enter a valid email for the patient to be removed!" or admin_adding_warning=="Please enter a valid email" %}
+                              <div class="card-body">
+                                <div class="alert alert-warning">{{ admin_adding_warning }}</div>
+                              </div>
+                            {% elif admin_adding_warning=="You have successfully removed a patient from the database!" %}
+                                <div class="card-body">
+                                    <div class="alert alert-success">{{ admin_adding_warning }}</div>
+                                </div>
+                            {% endif %}
                             <div class="card-body">
                               <form action="/Remove_Patient" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="Removed-Patient-Email"><b>Patient Email</b> </label>
-                                    <input type="email" name="Removed-Patient-Email" required class="form-control2" id="Removed-Patient-Email" placeholder="Email of the Patient to be removed">
+                                    <label for="Removed-Patient-Email"><b>Patient Email</b></label>
+                                        <select name="Removed-Patient-Email" id="Removed-Patient-Email" class="form-control2">
+                                         {% for email in patients_emails %}
+                                          <option value="{{ email[0] }}">{{ email[0] }}</option>
+                                          {% endfor %}
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="btn-box">

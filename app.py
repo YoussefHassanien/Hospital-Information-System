@@ -30,7 +30,7 @@ def doctor():  # put application's code here
     return render_template('Doctor.html')
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():  # put application's code here
-    return render_template('Admin_Profile.html')
+    return render_template('Admin_Charts.html')
 
 
 @app.route("/Home", methods=['GET', 'POST'])
@@ -108,36 +108,46 @@ def admin_charts():
 
 @app.route('/Admin_Patients_Database', methods=['GET', 'POST'])
 def patients_database():
+    cursor.execute('SELECT DID FROM Doctor')
+    doctors_ids = cursor.fetchall()
+    cursor.execute('SELECT pEmail FROM Patient')
+    patients_emails = cursor.fetchall()
     patient1 = "hamsa"
-    return render_template('Admin_Patients_Database.html', patient1=patient1)
+    return render_template('Admin_Patients_Database.html', patient1=patient1,
+                           doctors_ids=doctors_ids, patients_emails=patients_emails)
 @app.route('/Admin_Add_Doctor', methods=['GET', 'POST'])
-def add_doctor():
-    message = ''
+def admin_add_doctor():
     doctor_ssn = request.form.get("Doctor-SSN")
-    doctor_fname = request.form.get("Doctor-FName")
-    doctor_lname = request.form.get("Doctor-LName")
-    doctor_email = request.form.get("Doctor-Email")
-    doctor_password = request.form.get("Doctor-Password")
-    doctor_address = request.form.get("Doctor-Address")
-    doctor_birthdate = request.form.get("Doctor-Birthdate")
-    doctor_gender = request.form.get("Doctor-Gender")
-    doctor_phone = request.form.get("Doctor-Phone")
-    doctor_salary = request.form.get("Doctor-Salary")
-    doctor_education = request.form.get("Doctor-Education")
-    doctor_specialization = request.form.get("Doctor-Specialisation")
-    doctor_department_number = request.form.get("Doctor-Department-Number")
-    cursor.execute('SELECT DEmail FROM Doctor where DEmail = %s', (doctor_email,))
-    if cursor.fetchone():
-        message = 'Doctor already exits in the database!'
+    if len(doctor_ssn) == 14:
+        doctor_fname = request.form.get("Doctor-FName")
+        doctor_lname = request.form.get("Doctor-LName")
+        doctor_email = request.form.get("Doctor-Email")
+        doctor_password = request.form.get("Doctor-Password")
+        doctor_address = request.form.get("Doctor-Address")
+        doctor_birthdate = request.form.get("Doctor-Birthdate")
+        doctor_gender = request.form.get("Doctor-Gender")
+        doctor_phone = request.form.get("Doctor-Phone")
+        doctor_salary = request.form.get("Doctor-Salary")
+        doctor_education = request.form.get("Doctor-Education")
+        doctor_specialization = request.form.get("Doctor-Specialisation")
+        doctor_department_number = request.form.get("Doctor-Department-Number")
+        cursor.execute('SELECT DEmail FROM Doctor where DEmail = %s', (doctor_email,))
+        if cursor.fetchone():
+            message = 'Doctor already exits in the database!'
+        else:
+            cursor.execute('INSERT INTO Doctor(DSSN, DFname, DLname, DEmail, DPassword, DAddress, DBirthdate, '
+                           'DGender, DPhone, DEducation, DSalary, Specialization, DNo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                           (doctor_ssn, doctor_fname, doctor_lname, doctor_email, doctor_password, doctor_address, doctor_birthdate,
+                            doctor_gender, doctor_phone,doctor_education,doctor_salary,doctor_specialization, doctor_department_number))
+            database_session.commit()
+            message = 'You have successfully added a new doctor to the database!'
     else:
-        cursor.execute('INSERT INTO Doctor(DSSN, DFname, DLname, DEmail, DPassword, DAddress, DBirthdate, '
-                       'DGender, DPhone, DEducation, DSalary, Specialization, DNo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
-                       (doctor_ssn, doctor_fname, doctor_lname, doctor_email, doctor_password, doctor_address, doctor_birthdate,
-                        doctor_gender, doctor_phone,doctor_education,doctor_salary,doctor_specialization, doctor_department_number))
-        database_session.commit()
-        message = 'You have successfully added a new doctor to the database!'
+        message = 'Please enter a valid doctor SSN!'
 
-    return render_template("Admin_Doctors_Database.html", admin_adding_warning=message)
+    cursor.execute('SELECT DEmail FROM Doctor')
+    doctors_emails = cursor.fetchall()
+    return render_template("Admin_Doctors_Database.html", admin_adding_warning=message,
+                           doctors_emails=doctors_emails)
 
 @app.route('/Edit_Doctor', methods=['GET', 'POST'])
 def edit_doctor():
@@ -193,11 +203,13 @@ def edit_doctor():
         if doctor_department_number:
             cursor.execute('UPDATE Doctor SET DNo= %s WHERE DEmail= %s', (doctor_department_number, doctor_to_be_edited))
             database_session.commit()
-        return render_template("Admin_Doctors_Database.html", admin_adding_warning=message)
     else:
         message = 'Please enter a valid doctor email!'
-        return render_template("Admin_Doctors_Database.html", admin_adding_warning=message)
 
+    cursor.execute('SELECT DEmail FROM Doctor')
+    doctors_emails = cursor.fetchall()
+    return render_template("Admin_Doctors_Database.html", admin_adding_warning=message,
+                           doctors_emails=doctors_emails)
 @app.route('/Admin_Edit_Patient', methods=['GET', 'POST'])
 def admin_edit_patient():
     patient_to_be_edited = request.form['To-Be-Edited-Patient-Email']
@@ -248,11 +260,15 @@ def admin_edit_patient():
         if patient_doctor_id:
             cursor.execute('UPDATE Patient SET DID= %s WHERE pEmail= %s', (patient_doctor_id, patient_to_be_edited))
             database_session.commit()
-        return render_template("Admin_Patients_Database.html", admin_adding_warning=message)
     else:
         message = 'Please enter a valid patient email!'
-        return render_template("Admin_Patients_Database.html", admin_adding_warning=message)
 
+    cursor.execute('SELECT pEmail FROM Patient')
+    patients_emails = cursor.fetchall()
+    cursor.execute('SELECT DID FROM Doctor')
+    doctors_ids = cursor.fetchall()
+    return render_template("Admin_Patients_Database.html", admin_adding_warning=message,
+                           doctors_ids=doctors_ids, patients_emails=patients_emails)
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     message = ''
@@ -308,37 +324,84 @@ def book():
 
 @app.route('/Admin_Add_Patient', methods=['GET', 'POST'])
 def add_patient():
-    message = ''
     patient_ssn = request.form.get("Patient-SSN")
-    patient_fname = request.form.get("Patient-FName")
-    patient_lname = request.form.get("Patient-LName")
-    patient_email = request.form.get("Patient-Email")
-    patient_password = request.form.get("Patient-Password")
-    patient_address = request.form.get("Patient-Address")
-    patient_birthdate = request.form.get("Patient-Birthdate")
-    patient_gender = request.form.get("Patient-Gender")
-    patient_phone = request.form.get("Patient-Phone")
-    patient_medical_status = request.form.get("Patient-Medical-Status")
-    patient_medical_history = request.form.get("Patient-Medical-History")
-    patient_doctor_id = request.form.get("Patient-Doctor-ID")
-
-    cursor.execute('SELECT pEmail FROM Patient where pEmail = %s', (patient_email,))
-    if cursor.fetchone():
-        message = 'Patient already exits in the database!'
+    if len(patient_ssn) == 14:
+        patient_fname = request.form.get("Patient-FName")
+        patient_lname = request.form.get("Patient-LName")
+        patient_email = request.form.get("Patient-Email")
+        patient_password = request.form.get("Patient-Password")
+        patient_address = request.form.get("Patient-Address")
+        patient_birthdate = request.form.get("Patient-Birthdate")
+        patient_gender = request.form.get("Patient-Gender")
+        patient_phone = request.form.get("Patient-Phone")
+        patient_medical_status = request.form.get("Patient-Medical-Status")
+        patient_medical_history = request.form.get("Patient-Medical-History")
+        patient_doctor_id = request.form.get("Patient-Doctor-ID")
+        cursor.execute('SELECT pEmail FROM Patient where pEmail = %s', (patient_email,))
+        if cursor.fetchone():
+            message = 'Patient already exits in the database!'
+        else:
+            cursor.execute('INSERT INTO Patient(PSSN, PFname, PLname, pEmail, ppassword, Paddress, Pbirthdate, '
+                           'Pgender, Pphone, medical_history, medical_status, DID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                           (patient_ssn, patient_fname, patient_lname, patient_email, patient_password, patient_address, patient_birthdate,
+                            patient_gender, patient_phone, patient_medical_status, patient_medical_history, patient_doctor_id))
+            database_session.commit()
+            message = 'You have successfully added a new patient to the database!'
     else:
-        cursor.execute('INSERT INTO Patient(PSSN, PFname, PLname, pEmail, ppassword, Paddress, Pbirthdate, '
-                       'Pgender, Pphone, medical_history, medical_status, DID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
-                       (patient_ssn, patient_fname, patient_lname, patient_email, patient_password, patient_address, patient_birthdate,
-                        patient_gender, patient_phone, patient_medical_status, patient_medical_history, patient_doctor_id))
-        database_session.commit()
-        message = 'You have successfully added a new patient to the database!'
+        message = 'Please enter a valid patient SSN!'
 
-    return render_template("Admin_Patients_Database.html", admin_adding_warning=message)
+    cursor.execute('SELECT pEmail FROM Patient')
+    patients_emails = cursor.fetchall()
+    cursor.execute('SELECT DID FROM Doctor')
+    doctors_ids = cursor.fetchall()
+    return render_template("Admin_Patients_Database.html", admin_adding_warning=message,
+                           doctors_ids=doctors_ids, patients_emails=patients_emails)
 
 @app.route('/Admin_Doctors_Database', methods=['GET', 'POST'])
 def doctors_database():
+    cursor.execute('SELECT DEmail FROM Doctor')
+    doctors_emails = cursor.fetchall()
     patient1 = "hamsa"
-    return render_template('Admin_Doctors_Database.html', patient1=patient1)
+    return render_template('Admin_Doctors_Database.html', patient1=patient1, doctors_emails=doctors_emails, admin_adding_warning="")
+
+@app.route('/Remove_Doctor', methods=['GET', 'POST'])
+def remove_doctor():
+    doctor_to_be_removed_email = request.form.get('Removed-Doctor-Email')
+    if doctor_to_be_removed_email:
+        cursor.execute('SELECT DID FROM Doctor WHERE DEmail = %s', (doctor_to_be_removed_email,))
+        doctor_to_be_removed_id = cursor.fetchone()
+        cursor.execute('SELECT * FROM Patient WHERE DID = %s', (doctor_to_be_removed_id[0],))
+        if cursor.fetchall():
+            cursor.execute('DELETE FROM Patient WHERE DID = %s', (doctor_to_be_removed_id[0],))
+            database_session.commit()
+        cursor.execute('DELETE FROM Doctor WHERE DEmail= %s', (doctor_to_be_removed_email,))
+        database_session.commit()
+        message = 'You have successfully removed a doctor from the database!'
+    else:
+        message = 'Please enter a valid email for the doctor to be removed!'
+
+    cursor.execute('SELECT DEmail FROM Doctor')
+    doctors_emails = cursor.fetchall()
+    return render_template('Admin_Doctors_Database.html', doctors_emails=doctors_emails, admin_adding_warning=message)
+
+@app.route('/Remove_Patient', methods=['GET', 'POST'])
+def remove_patient():
+    patient_to_be_removed_email = request.form.get('Removed-Patient-Email')
+    if patient_to_be_removed_email:
+        cursor.execute('SELECT pEmail FROM Patient WHERE pEmail = %s', (patient_to_be_removed_email,))
+        patient_to_be_removed_email = cursor.fetchone()
+        cursor.execute('DELETE FROM Patient WHERE pEmail = %s', (patient_to_be_removed_email[0],))
+        database_session.commit()
+        message = 'You have successfully removed a patient from the database!'
+    else:
+        message = 'Please enter a valid email for the patient to be removed!'
+
+    cursor.execute('SELECT pEmail FROM Patient')
+    patients_emails = cursor.fetchall()
+    cursor.execute('SELECT DID FROM Doctor')
+    doctors_ids = cursor.fetchall()
+    return render_template("Admin_Patients_Database.html", admin_adding_warning=message,
+                           doctors_ids=doctors_ids, patients_emails=patients_emails)
 
 @app.route("/patient", methods=["GET", "POST"])
 def patient():

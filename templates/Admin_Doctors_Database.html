@@ -51,16 +51,16 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="">
+                                    <a class="nav-link" href="/Admin_Doctors_Database">
                                       <div><i class="fas fa-table"></i>-Database</div>
                                     </a>
-                                    <a class="nav-link" href="">
+                                    <a class="nav-link" href="/Admin_Doctors_Database">
                                       <div><i class="fas fa-user-plus"></i>-Add</div>
                                     </a>
-                                    <a class="nav-link" href="">
+                                    <a class="nav-link" href="/Admin_Doctors_Database">
                                       <div><i class="fas fa-user-minus"></i>-Remove</div>
                                     </a>
-                                    <a class="nav-link" href="">
+                                    <a class="nav-link" href="/Admin_Doctors_Database">
                                       <div><i class="fas fa-pen-to-square"></i>-Edit</div>
                                     </a>
                                 </nav>
@@ -460,7 +460,7 @@
                                 <i class="fas fa-user-plus me-1"></i>
                                 Add-Doctor
                             </div>
-                            {% if admin_adding_warning=="Doctor already exits in the database!"%}
+                            {% if admin_adding_warning=="Doctor already exits in the database!" or admin_adding_warning=="Please enter a valid doctor SSN!"%}
                               <div class="card-body">
                                 <div class="alert alert-warning">{{ admin_adding_warning }}</div>
                               </div>
@@ -583,8 +583,12 @@
                               <form action="/Edit_Doctor" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="To-Be-Edited-Doctor-Email"><b>Doctor Email</b> </label>
-                                    <input type="email" name="To-Be-Edited-Doctor-Email" required class="form-control2" id="To-Be-Edited-Doctor-Email" placeholder="Email of the doctor to be edited">
+                                    <label for="To-Be-Edited-Doctor-Email"><b>Doctor Email</b></label>
+                                        <select name="To-Be-Edited-Doctor-Email" id="To-Be-Edited-Doctor-Email" class="form-control2">
+                                         {% for email in doctors_emails %}
+                                          <option value="{{ email[0] }}">{{ email[0] }}</option>
+                                          {% endfor %}
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -641,7 +645,7 @@
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Edited-Doctor-Salary"><b>Salary</b></label>
-                                    <input type="number" name="Edited-Doctor-Salary" class="form-control2" id="Edited-Doctor-Salary" placeholder="Salary" autocomplete="off">
+                                    <input type="text" name="Edited-Doctor-Salary" class="form-control2" id="Edited-Doctor-Salary" placeholder="Salary" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -680,12 +684,25 @@
                                 <i class="fas fa-user-minus me-1"></i>
                                 Remove-Doctor
                             </div>
+                            {% if admin_adding_warning=="Please enter a valid email for the doctor to be removed!"%}
+                              <div class="card-body">
+                                <div class="alert alert-warning">{{ admin_adding_warning }}</div>
+                              </div>
+                            {% elif admin_adding_warning=="You have successfully removed a doctor from the database!" %}
+                                <div class="card-body">
+                                    <div class="alert alert-success">{{ admin_adding_warning }}</div>
+                                </div>
+                            {% endif %}
                             <div class="card-body">
                               <form action="/Remove_Doctor" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="Removed-Doctor-Email"><b>Doctor Email</b> </label>
-                                    <input type="email" name="Removed-Doctor-Email" required class="form-control2" id="Removed-Doctor-Email" placeholder="Email of the doctor to be removed">
+                                    <label for="Removed-Doctor-Email"><b>Doctor Email</b></label>
+                                        <select name="Removed-Doctor-Email" id="Removed-Doctor-Email" class="form-control2">
+                                         {% for email in doctors_emails %}
+                                          <option value="{{ email[0] }}">{{ email[0] }}</option>
+                                          {% endfor %}
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="btn-box">
