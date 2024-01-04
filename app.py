@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 import psycopg2.extras
+import random
 
 app = Flask(__name__)
 app.secret_key = "queensqueries"
@@ -21,6 +22,9 @@ def home():  # put application's code here
 @app.route('/Surgery', methods=['GET', 'POST'])
 def surgery():  # put application's code here
     return render_template('Surgery.html')
+@app.route('/ICU', methods=['GET', 'POST'])
+def ICU():  # put application's code here
+    return render_template('ICU.html')
 @app.route('/doctor', methods=['GET', 'POST'])
 def doctor():  # put application's code here
     return render_template('Doctor.html')
@@ -106,6 +110,59 @@ def admin_charts():
 def patients_database():
     patient1 = "hamsa"
     return render_template('Admin_Patients_Database.html', patient1=patient1)
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    message = ''
+    username = request.form.get("cname")
+    useremail = request.form.get("cemail")
+    userphone = request.form.get("cphone")
+    usermessage = request.form.get("cmessage")
+
+    cursor.execute('INSERT INTO contact(cname, cemail, cphone, cmessage) '
+                   ' VALUES (%s, %s, %s, %s)',
+                   (username, useremail, userphone, usermessage))
+    database_session.commit()
+    message = 'Your response has been recorded!'
+
+    return render_template("Home.html")
+
+@app.route("/book", methods=["GET", "POST"])
+def book():
+    message = ''
+    userssn = request.form.get("inputPatientSSN")
+    doctorspecialization = request.form.get("inputDoctorName")
+    depname = request.form.get("inputDepartmentName")
+    userphone = request.form.get("inputPhone")
+    usersymptoms = request.form.get("inputSymptoms")
+    userdate = request.form.get("inputDate")
+
+    cursor.execute('SELECT did FROM doctor WHERE specialization = %s ORDER BY RANDOM() LIMIT 1',
+                   (doctorspecialization,))
+    result = cursor.fetchone()
+    #if result:
+        #cursor.execute('INSERT INTO examines(did)'
+                       #'VALUES (%s)',
+                     #  (result))
+        #database_session.commit()
+
+    cursor.execute('SELECT pid FROM patient WHERE pssn= %s', (userssn,))
+    result1 = cursor.fetchone()
+    #if result1:
+        #cursor.execute('INSERT INTO examines(pid)'
+                      # 'VALUES (%s)',
+                       #(result1))
+       # database_session.commit()
+    if result and result1:
+        cursor.execute('INSERT INTO examines(pid, did, department_name, phone, symptoms, start_date)'
+                       'VALUES (%s, %s, %s, %s, %s, %s)',
+                       (result1[0], result[0], depname, userphone, usersymptoms, userdate))
+        database_session.commit()
+        message = 'Your response has been recorded!'
+    else:
+        message = 'Error, doctor or patient not found'
+
+    return render_template("Home.html", msg=message)
 
 
 @app.route('/Admin_Doctors_Database', methods=['GET', 'POST'])

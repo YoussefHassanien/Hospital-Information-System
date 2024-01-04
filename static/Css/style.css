@@ -785,8 +785,8 @@ a:focus {
 /*This class encompases all the cards, it sets how they're to be displayed, where the space should be evenly distributed between them, it also sets the width of the webpage they'll take up*/
 .card{
     position:relative;
-    width:300px;
-    height:370px;
+    width:265px;
+    height:320px;
     transition:0.3s ease-out;
     box-shadow: 0 3px 15px rgba(0,0,0,0.7);
     top:80px;
@@ -1122,6 +1122,7 @@ h2{
 .info_section {
   background-color: #252525;
   color: #ffffff;
+  height:430px;
 }
 
 .info_section .info_top {
@@ -1272,7 +1273,9 @@ h2{
 .info_section .info_post .post_box .img-box img {
   width: 55px;
 }
-
+.info_section{
+  padding-left: 265px;
+}
 .info_section .info_post .post_box p {
   margin: 0;
 }
@@ -1280,7 +1283,6 @@ h2{
 .info_section .info_post .post_box:not(:nth-last-child(1)) {
   margin-bottom: 15px;
 }
-
 .info_section .info_contact a {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1327,6 +1329,8 @@ h2{
 /* footer section*/
 .footer_section {
   position: relative;
+  display:flex;
+  align-content: space-between;
   background-color: #252525;
   text-align: center;
 }
