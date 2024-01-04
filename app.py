@@ -90,7 +90,7 @@ def login():
     elif admin_result:
         session['user'] = dict(doctor_result)
         message = 'Logged in as an admin!'
-        return redirect('/admin')
+        return redirect('/Admin_Charts')
     else:
         message = 'Please enter correct email and password'
     return render_template('Home.html', msg=message)
@@ -110,6 +110,34 @@ def admin_charts():
 def patients_database():
     patient1 = "hamsa"
     return render_template('Admin_Patients_Database.html', patient1=patient1)
+@app.route('/Admin_Add_Doctor', methods=['GET', 'POST'])
+def add_doctor():
+    message = ''
+    doctor_ssn = request.form.get("Doctor-SSN")
+    doctor_fname = request.form.get("Doctor-FName")
+    doctor_lname = request.form.get("Doctor-LName")
+    doctor_email = request.form.get("Doctor-Email")
+    doctor_password = request.form.get("Doctor-Password")
+    doctor_address = request.form.get("Doctor-Address")
+    doctor_birthdate = request.form.get("Doctor-Birthdate")
+    doctor_gender = request.form.get("Doctor-Gender")
+    doctor_phone = request.form.get("Doctor-Phone")
+    doctor_salary = request.form.get("Doctor-Salary")
+    doctor_education = request.form.get("Doctor-Education")
+    doctor_specialization = request.form.get("Doctor-Specialisation")
+    doctor_department_number = request.form.get("Doctor-Department-Number")
+    cursor.execute('SELECT DEmail FROM Doctor where DEmail = %s', (doctor_email,))
+    if cursor.fetchone():
+        message = 'Doctor already exits in the database!'
+    else:
+        cursor.execute('INSERT INTO Doctor(DSSN, DFname, DLname, DEmail, DPassword, DAddress, DBirthdate, '
+                       'DGender, DPhone, DEducation, DSalary, Specialization, DNo) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                       (doctor_ssn, doctor_fname, doctor_lname, doctor_email, doctor_password, doctor_address, doctor_birthdate,
+                        doctor_gender, doctor_phone,doctor_education,doctor_salary,doctor_specialization, doctor_department_number))
+        database_session.commit()
+        message = 'You have successfully added a new doctor to the database!'
+
+    return render_template("Admin_Doctors_Database.html", admin_adding_warning=message)
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
@@ -164,6 +192,34 @@ def book():
 
     return render_template("Home.html", msg=message)
 
+@app.route('/Admin_Add_Patient', methods=['GET', 'POST'])
+def add_patient():
+    message = ''
+    patient_ssn = request.form.get("Patient-SSN")
+    patient_fname = request.form.get("Patient-FName")
+    patient_lname = request.form.get("Patient-LName")
+    patient_email = request.form.get("Patient-Email")
+    patient_password = request.form.get("Patient-Password")
+    patient_address = request.form.get("Patient-Address")
+    patient_birthdate = request.form.get("Patient-Birthdate")
+    patient_gender = request.form.get("Patient-Gender")
+    patient_phone = request.form.get("Patient-Phone")
+    patient_medical_status = request.form.get("Patient-Medical-Status")
+    patient_medical_history = request.form.get("Patient-Medical-History")
+    patient_doctor_id = request.form.get("Patient-Doctor-ID")
+
+    cursor.execute('SELECT pEmail FROM Patient where pEmail = %s', (patient_email,))
+    if cursor.fetchone():
+        message = 'Patient already exits in the database!'
+    else:
+        cursor.execute('INSERT INTO Patient(PSSN, PFname, PLname, pEmail, ppassword, Paddress, Pbirthdate, '
+                       'Pgender, Pphone, medical_history, medical_status, DID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                       (patient_ssn, patient_fname, patient_lname, patient_email, patient_password, patient_address, patient_birthdate,
+                        patient_gender, patient_phone, patient_medical_status, patient_medical_history, patient_doctor_id))
+        database_session.commit()
+        message = 'You have successfully added a new patient to the database!'
+
+    return render_template("Admin_Patients_Database.html", admin_adding_warning=message)
 
 @app.route('/Admin_Doctors_Database', methods=['GET', 'POST'])
 def doctors_database():

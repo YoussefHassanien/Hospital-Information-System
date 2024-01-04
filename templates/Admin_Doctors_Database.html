@@ -460,48 +460,57 @@
                                 <i class="fas fa-user-plus me-1"></i>
                                 Add-Doctor
                             </div>
+                            {% if admin_adding_warning=="Doctor already exits in the database!"%}
+                              <div class="card-body">
+                                <div class="alert alert-warning">{{ admin_adding_warning }}</div>
+                              </div>
+                            {% elif admin_adding_warning=="You have successfully added a new doctor to the database!" %}
+                                <div class="card-body">
+                                    <div class="alert alert-success">{{ admin_adding_warning }}</div>
+                                </div>
+                            {% endif %}
                             <div class="card-body">
-                              <form action="/Add_Doctor" method="post">
+                              <form action="/Admin_Add_Doctor" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-SSN"><b>SSN</b></label>
-                                    <input type="number" name="Doctor-SSN" class="form-control2" id="Doctor-SSN" placeholder="SSN" autocomplete="off">
+                                    <input type="number" name="Doctor-SSN" required class="form-control2" id="Doctor-SSN" placeholder="SSN" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-FName"><b>First Name</b></label>
-                                    <input type="text" name="Doctor-FName" class="form-control2" id="Doctor-FName" placeholder="First Name" autocomplete="off">
+                                    <input type="text" name="Doctor-FName" required class="form-control2" id="Doctor-FName" placeholder="First Name" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-LName"><b>Last Name</b></label>
-                                    <input type="text" name="Doctor-LName" class="form-control2" id="Doctor-LName" placeholder="Last Name" autocomplete="off">
+                                    <input type="text" name="Doctor-LName" required class="form-control2" id="Doctor-LName" placeholder="Last Name" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-Email"><b>Email</b> </label>
-                                    <input type="email" name="Doctor-Email" class="form-control2" id="Doctor-Email" placeholder="Email">
+                                    <input type="email" name="Doctor-Email" required class="form-control2" id="Doctor-Email" placeholder="Email">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-Password"><b>Password</b></label>
-                                    <input type="text" name="Doctor-Password" class="form-control2" id="Doctor-Password" placeholder="Password">
+                                    <input type="text" name="Doctor-Password" required class="form-control2" id="Doctor-Password" placeholder="Password">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-Address"><b>Address</b></label>
-                                    <input type="text" name="Doctor-Address" class="form-control2" id="Doctor-Address" placeholder="Address" autocomplete="off">
+                                    <input type="text" name="Doctor-Address" required class="form-control2" id="Doctor-Address" placeholder="Address" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-Birthdate"><b>Birthdate</b></label>
-                                    <input type="date" name="Doctor-Birthdate" class="form-control2" id="Doctor-Birthdate" placeholder="Birthdate" autocomplete="off">
+                                    <input type="date" name="Doctor-Birthdate" required class="form-control2" id="Doctor-Birthdate" placeholder="Birthdate" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -516,19 +525,38 @@
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-Phone"><b>Phone Number</b></label>
-                                    <input type="tel" name="Doctor-Phone" class="form-control2" id="Doctor-Phone" placeholder="Phone Number" autocomplete="off">
+                                    <input type="tel" name="Doctor-Phone" required class="form-control2" id="Doctor-Phone" placeholder="Phone Number" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-Education"><b>Education</b></label>
-                                    <input type="text" name=Doctor-Education class="form-control2" id="Doctor-Education" placeholder="Education" autocomplete="off">
+                                    <input type="text" name=Doctor-Education required class="form-control2" id="Doctor-Education" placeholder="Education" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Doctor-Salary"><b>Salary</b></label>
-                                    <input type="number" name=Doctor-Salary class="form-control2" id="Doctor-Salary" placeholder="Salary" autocomplete="off">
+                                    <input type="text" name=Doctor-Salary required class="form-control2" id="Doctor-Salary" placeholder="Salary" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Specialisation"><b>Doctor-Specialisation</b></label>
+                                        <select name="Doctor-Specialisation" id="Doctor-Specialisation" class="form-control2">
+                                          <option value="General Surgery">General Surgery</option>
+                                          <option value="Neurology">Neurology</option>
+                                          <option value="Cardiovascular">Cardiovascular</option>
+                                        </select>
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Doctor-Department-Number"><b>Doctor Department Number</b></label>
+                                        <select name="Doctor-Department-Number" id="Doctor-Department-Number" class="form-control2">
+                                          <option value="1">1</option>
+                                          <option value="2">2</option>
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="btn-box">
@@ -546,8 +574,8 @@
                               <form action="/Edit_Doctor" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="To-Be-Edited-Doctor-Email"><b>Email of the doctor to be edited</b> </label>
-                                    <input type="email" name="To-Be-Edited-Doctor-Email" required class="form-control2" id="To-Be-Edited-Doctor-Email" placeholder="Email">
+                                    <label for="To-Be-Edited-Doctor-Email"><b>Doctor Email</b> </label>
+                                    <input type="email" name="To-Be-Edited-Doctor-Email" required class="form-control2" id="To-Be-Edited-Doctor-Email" placeholder="Email of the doctor to be edited">
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -604,19 +632,38 @@
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Edited-Doctor-Education"><b>Education</b></label>
-                                    <input type="text" name=Edited-Doctor-Education class="form-control2" id="Edited-Doctor-Education" placeholder="Education" autocomplete="off">
+                                    <input type="text" name="Edited-Doctor-Education" class="form-control2" id="Edited-Doctor-Education" placeholder="Education" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Edited-Doctor-Salary"><b>Salary</b></label>
-                                    <input type="number" name=Edited-Doctor-Salary class="form-control2" id="Edited-Doctor-Salary" placeholder="Salary" autocomplete="off">
+                                    <input type="number" name="Edited-Doctor-Salary" class="form-control2" id="Edited-Doctor-Salary" placeholder="Salary" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Edited-Doctor-Email"><b>Email</b> </label>
-                                    <input type="email" name="Edited-Doctor-Email" class="form-control2" id="Edited-Doctor-Email" placeholder="Email">
+                                    <input type="email" name="Edited-Doctor-Email" class="form-control2" id="Edited-Doctor-Email" placeholder="New Doctor Email">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Specialisation"><b>Doctor-Specialisation</b></label>
+                                        <select name="Edited-Doctor-Specialisation" id="Edited-Doctor-Specialisation" class="form-control2">
+                                          <option value="General Surgery">General Surgery</option>
+                                          <option value="Neurology">Neurology</option>
+                                          <option value="Cardiovascular">Cardiovascular</option>
+                                        </select>
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Doctor-Department-Number"><b>Doctor Department Number</b></label>
+                                        <select name="Edited-Doctor-Department-Number" id="Edited-Doctor-Department-Number" class="form-control2">
+                                          <option value="1">1</option>
+                                          <option value="2">2</option>
+                                        </select>
                                   </div>
                                 </div>
                                 <div class="btn-box">
@@ -634,8 +681,8 @@
                               <form action="/Remove_Doctor" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="Removed-Doctor-Email"><b>Email of the doctor to be removed</b> </label>
-                                    <input type="email" name="Removed-Doctor-Email" required class="form-control2" id="Removed-Doctor-Email" placeholder="Email">
+                                    <label for="Removed-Doctor-Email"><b>Doctor Email</b> </label>
+                                    <input type="email" name="Removed-Doctor-Email" required class="form-control2" id="Removed-Doctor-Email" placeholder="Email of the doctor to be removed">
                                   </div>
                                 </div>
                                 <div class="btn-box">

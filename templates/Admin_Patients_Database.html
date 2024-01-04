@@ -460,48 +460,57 @@
                                 <i class="fas fa-user-plus me-1"></i>
                                 Add-Patient
                             </div>
+                            {% if admin_adding_warning=="Patient already exits in the database!"%}
+                              <div class="card-body">
+                                <div class="alert alert-warning">{{ admin_adding_warning }}</div>
+                              </div>
+                            {% elif admin_adding_warning=="You have successfully added a new patient to the database!" %}
+                                <div class="card-body">
+                                    <div class="alert alert-success">{{ admin_adding_warning }}</div>
+                                </div>
+                            {% endif %}
                             <div class="card-body">
-                              <form action="/Add_Patient" method="post">
+                              <form action="/Admin_Add_Patient" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-SSN"><b>SSN</b></label>
-                                    <input type="number" name="Patient-SSN" class="form-control2" id="Patient-SSN" placeholder="SSN" autocomplete="off">
+                                    <input type="number" name="Patient-SSN" required class="form-control2" id="Patient-SSN" placeholder="SSN" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-FName"><b>First Name</b></label>
-                                    <input type="text" name="Patient-FName" class="form-control2" id="Patient-FName" placeholder="First Name" autocomplete="off">
+                                    <input type="text" name="Patient-FName" required class="form-control2" id="Patient-FName" placeholder="First Name" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-LName"><b>Last Name</b></label>
-                                    <input type="text" name="Patient-LName" class="form-control2" id="Patient-LName" placeholder="Last Name" autocomplete="off">
+                                    <input type="text" name="Patient-LName" required class="form-control2" id="Patient-LName" placeholder="Last Name" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Email"><b>Email</b></label>
-                                    <input type="email" name="Patient-Email" class="form-control2" id="Patient-Email" placeholder="Email">
+                                    <input type="email" name="Patient-Email" required class="form-control2" id="Patient-Email" placeholder="Email">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Password"><b>Password</b></label>
-                                    <input type="text" name="Patient-Password" class="form-control2" id="Patient-Password" placeholder="Password">
+                                    <input type="text" name="Patient-Password" required class="form-control2" id="Patient-Password" placeholder="Password">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Address"><b>Address</b></label>
-                                    <input type="text" name="Patient-Address" class="form-control2" id="Patient-Address" placeholder="Address" autocomplete="off">
+                                    <input type="text" name="Patient-Address" required class="form-control2" id="Patient-Address" placeholder="Address" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Birthdate"><b>Birthdate</b></label>
-                                    <input type="date" name="Patient-Birthdate" class="form-control2" id="Patient-Birthdate" placeholder="Birthdate" autocomplete="off">
+                                    <input type="date" name="Patient-Birthdate" required class="form-control2" id="Patient-Birthdate" placeholder="Birthdate" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -516,19 +525,25 @@
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Phone"><b>Phone Number</b></label>
-                                    <input type="tel" name="Patient-Phone" class="form-control2" id="Patient-Phone" placeholder="Phone Number" autocomplete="off">
+                                    <input type="tel" name="Patient-Phone" required class="form-control2" id="Patient-Phone" placeholder="Phone Number" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Medical-Status"><b>Medical Status</b></label>
-                                    <input type="text" name=Patient-Medical-Status class="form-control2" id="Patient-Medical-Status" placeholder="Education" autocomplete="off">
+                                    <input type="text" name="Patient-Medical-Status" class="form-control2" id="Patient-Medical-Status" placeholder="Medical Status" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Patient-Medical-History"><b>Medical History</b></label>
-                                    <input type="number" name=Patient-Medical-History class="form-control2" id="Patient-Medical-History" placeholder="Salary" autocomplete="off">
+                                    <input type="text" name="Patient-Medical-History" class="form-control2" id="Patient-Medical-History" placeholder="Medical History" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Patient-Doctor-ID"><b>Doctor ID</b></label>
+                                    <input type="number" name="Patient-Doctor-ID" required class="form-control2" id="Patient-Doctor-ID" placeholder="Doctor ID of the patient" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="btn-box">
@@ -546,8 +561,8 @@
                               <form action="/Edit_Patient" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="To-Be-Edited-Patient-Email"><b>Email of the Patient to be edited</b> </label>
-                                    <input type="email" name="To-Be-Edited-Patient-Email" required class="form-control2" id="To-Be-Edited-Patient-Email" placeholder="Email">
+                                    <label for="To-Be-Edited-Patient-Email"><b>Patient Email</b> </label>
+                                    <input type="email" name="To-Be-Edited-Patient-Email" required class="form-control2" id="To-Be-Edited-Patient-Email" placeholder="Email of the Patient to be edited">
                                   </div>
                                 </div>
                                 <div class="form-row ">
@@ -603,20 +618,26 @@
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="Edited-Patient-Education"><b>Education</b></label>
-                                    <input type="text" name=Edited-Patient-Education class="form-control2" id="Edited-Patient-Education" placeholder="Education" autocomplete="off">
+                                    <label for="Edited-Patient-Medical-Status"><b>Medical Status</b></label>
+                                    <input type="text" name="Edited-Patient-Medical-Status" class="form-control2" id="Edited-Patient-Medical-Status" placeholder="Medical Status" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="Edited-Patient-Salary"><b>Salary</b></label>
-                                    <input type="number" name=Edited-Patient-Salary class="form-control2" id="Edited-Patient-Salary" placeholder="Salary" autocomplete="off">
+                                    <label for="Edited-Patient-Medical-History"><b>Medical History</b></label>
+                                    <input type="text" name="Edited-Patient-Medical-History" class="form-control2" id="Edited-Patient-Medical-History" placeholder="Medical History" autocomplete="off">
+                                  </div>
+                                </div>
+                                <div class="form-row ">
+                                  <div class="form-group col-lg-4">
+                                    <label for="Edited-Patient-Doctor-ID"><b>Doctor ID</b></label>
+                                    <input type="number" name="Edited-Patient-Doctor-ID" class="form-control2" id="Edited-Patient-Doctor-ID" placeholder="Doctor ID of the patient" autocomplete="off">
                                   </div>
                                 </div>
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
                                     <label for="Edited-Patient-Email"><b>Email</b> </label>
-                                    <input type="email" name="Edited-Patient-Email" class="form-control2" id="Edited-Patient-Email" placeholder="Email">
+                                    <input type="email" name="Edited-Patient-Email" class="form-control2" id="Edited-Patient-Email" placeholder="New Patient Email">
                                   </div>
                                 </div>
                                 <div class="btn-box">
@@ -634,8 +655,8 @@
                               <form action="/Remove_Patient" method="post">
                                 <div class="form-row ">
                                   <div class="form-group col-lg-4">
-                                    <label for="Removed-Patient-Email"><b>Email of the Patient to be removed</b> </label>
-                                    <input type="email" name="Removed-Patient-Email" required class="form-control2" id="Removed-Patient-Email" placeholder="Email">
+                                    <label for="Removed-Patient-Email"><b>Patient Email</b> </label>
+                                    <input type="email" name="Removed-Patient-Email" required class="form-control2" id="Removed-Patient-Email" placeholder="Email of the Patient to be removed">
                                   </div>
                                 </div>
                                 <div class="btn-box">

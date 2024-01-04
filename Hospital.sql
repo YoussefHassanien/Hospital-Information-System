@@ -10,14 +10,14 @@ DSSN varchar(14) UNIQUE not NULL,
 DFname varchar(20) not NULL,
 DLname varchar(20) not NULL,
 DEmail varchar(100) UNIQUE not null,
-ppassword varchar(30) not null,
-Dbirthdate date not NULL,
-Daddress varchar(100) not NULL,
-Dphone varchar(20) not NULL,
-Dgender varchar(1) CHECK ( Dgender='F' OR Dgender='M' ),
-Deducation varchar(100) not NULL,
-Dsalary int  not NULL,
-specialization varchar(30)  not NULL,
+DPassword varchar(30) not null,
+DBirthdate date not NULL,
+DAddress varchar(100) not NULL,
+DPhone varchar(20) not NULL,
+DGender varchar(1) CHECK ( Dgender='F' OR Dgender='M' ),
+DEducation varchar(100) not NULL,
+DSalary varchar(20)  NOT NULL,
+Specialization varchar(30)  not NULL,
 DNo int references General_Department (Dnumber)
 
 );
@@ -30,6 +30,7 @@ Mgr_Id int references Doctor (DID)
 
 
 create table Patient (
+DID INT REFERENCES Doctor(DID),
 PID SERIAL UNIQUE,
 PSSN varchar(14) UNIQUE not null,
 PFname varchar(20) not null,
@@ -43,22 +44,6 @@ Pphone varchar(20) not null,
 medical_history varchar(300),
 medical_status varchar(300)
 );
-
-create table Nurse(
-NID SERIAL UNIQUE,
-NSSN varchar(14) UNIQUE not null,
-NFname varchar(20) not null,
-NLname varchar(20) not null,
-Nbirthdate date not null,
-Naddress varchar(100) not null,
-Nphone varchar(20) not null,
-Ngender varchar(1) CHECK ( Ngender='F' OR Ngender='M' ),
-Neducation varchar(1000) not null,
-salary int not null,
-DNo int references General_Department (Dnumber)
-
-);
-
 
 create table ICU(
 DNo int references General_Department (Dnumber),
@@ -117,10 +102,6 @@ leavedate date not null,
 startdate date not null
 );
 
-create table Cares_for(
-Pid int references Patient (PID),
-Nid int references Nurse (NID)
-);
 
 create table Prescribes(
 Mid int references Medication (M_id),
@@ -128,6 +109,7 @@ Did int references Doctor (DID)
 );
 
 create table Contact(
+Cid SERIAL UNIQUE,
 Cname varchar(20) not NULL,
 CEmail varchar(100) UNIQUE not null,
 Cphone varchar(20) not NULL,
@@ -135,6 +117,11 @@ CMessage varchar(700) not null
 );
 
 create table Admin(
-Aemail varchar(100) UNIQUE not null,
-Apassword varchar(30) not null
+Aid SERIAL UNIQUE,
+Aemail varchar(100) UNIQUE NOT NULL,
+Apassword varchar(30) NOT NULL,
+Aimage varchar(700) NOT NULL
 );
+
+INSERT INTO General_Department(Dnumber,Dname) VALUES (1,'Surgery');
+INSERT INTO General_Department(Dnumber,Dname) VALUES (2,'ICU');
