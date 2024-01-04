@@ -66,7 +66,6 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    message = ''
     useremail = request.form.get("pEmail")
     userpassword = request.form.get("ppassword")
     cursor.execute('SELECT * FROM patient WHERE pEmail = %s AND ppassword = %s', (useremail, userpassword))
@@ -88,9 +87,8 @@ def login():
         message = 'Logged in as a doctor!'
         return redirect('/doctor')
     elif admin_result:
-        session['user'] = dict(doctor_result)
-        message = 'Logged in as an admin!'
-        return redirect('/Admin_Charts')
+        session['user'] = dict(admin_result)
+        return render_template('Admin_Charts.html')
     else:
         message = 'Please enter correct email and password'
     return render_template('Home.html', msg=message)
